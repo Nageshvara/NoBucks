@@ -9,6 +9,7 @@ import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import NotFound from './pages/NotFound';
+import { AnimatePresence } from 'framer-motion';
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <AnimatePresence mode='wait'>
     <RouterProvider router={router}/>
+    </AnimatePresence>
   </React.StrictMode>
 );
 
