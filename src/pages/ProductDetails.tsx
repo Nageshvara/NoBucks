@@ -12,7 +12,6 @@ function ProductDetails() {
 
   const {id} = useParams<{id:string}>();
   const navigate = useNavigate();
-  const [quantity,setQuantity] = useState(1);
   const [isImageLoaded,setIsImageLoaded] = useState(false)
 
   const product = products.find(p=>p.id===id)

@@ -35,7 +35,7 @@ function ProductCard({product}:ProductCardProps) {
         </div>
         <h3 className="mb-1 text-sm font-medium">{product.name}</h3>
         <div className="mt-auto flex items-center justify-between pt-3">
-          <span className="font-medium">${product.price.toFixed(2)}</span>
+          <span className="font-medium">Rs.{product.price.toFixed(2)}</span>
           <Button variant='ghost' size='sm' className="h-8 w-8 p-0">
               <ShoppingCart className="h-4 w-4"/>
               <span className="sr-only">Add to Cart</span>
