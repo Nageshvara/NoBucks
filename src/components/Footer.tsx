@@ -58,7 +58,7 @@ const Footer = () => {
       
       <div className="max-w-7xl mx-auto mt-10 pt-5 border-t">
         <p className="text-xs text-gray-500 text-center">
-          © 2025 MINIMALIST. All rights reserved.
+          © 2025 NoBucks. All rights reserved.
         </p>
       </div>
     </footer>
