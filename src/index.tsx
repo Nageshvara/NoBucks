@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+
+import {Provider} from "react-redux"
+import {store} from "./redux/store"
+
 import reportWebVitals from './reportWebVitals';
 
 import {createBrowserRouter,RouterProvider} from  'react-router-dom'
@@ -39,9 +43,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <AnimatePresence mode='wait'>
     <RouterProvider router={router}/>
     </AnimatePresence>
+    </Provider>
   </React.StrictMode>
 );
 

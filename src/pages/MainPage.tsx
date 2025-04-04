@@ -1,16 +1,37 @@
 import { useEffect, useState } from "react"
+import axios from "axios"
 import {motion} from 'framer-motion'
-import { products } from "../data/products"
 import ProductCard from "../components/ProductCard"
+
+interface Product {
+  _id: string;
+  id:number;
+  name: string;
+  image: string;
+  category: string;
+  price: number;
+}
+
 
 function MainPage() {
 
+  const [products,setProducts] = useState<Product[]>([])
   const[isLoading,SetIsLoading] = useState(true)
 
   useEffect(()=>{
-    const timer = setTimeout(()=>SetIsLoading(false),800)
-    return ()=>clearTimeout(timer)
-  },[])
+    const fetchProducts = async ()=> {
+    try {
+      const res = await axios.get("http://localhost:5000/api/products");
+      setProducts(res.data)
+    } catch (error) {
+      console.error(error)
+    }
+    finally{
+      SetIsLoading(false)
+    }
+  };
+
+  fetchProducts(); },[])
 
   const container = {
     hidden:{opacity:0},
@@ -60,7 +81,7 @@ function MainPage() {
             variants={container} initial="hidden" animate="show">
               {
                 products.map((product)=>(
-                  <motion.div key={product.id} variants={item}>
+                  <motion.div key={product._id} variants={item}>
                     <ProductCard product={product}/>
                   </motion.div>
                 ))
