@@ -26,7 +26,7 @@
 
       const fetchProduct = async () => {
         try {
-          const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+          const res = await axios.get(`https://nobucks.onrender.com/api/products/${id}`);
           setProduct(res.data);
         } catch (error) {
           console.error("Error fetching product details:", error);
