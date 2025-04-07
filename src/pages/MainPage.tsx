@@ -2,15 +2,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import {motion} from 'framer-motion'
 import ProductCard from "../components/ProductCard"
-
-interface Product {
-  _id: string;
-  id:number;
-  name: string;
-  image: string;
-  category: string;
-  price: number;
-}
+import { Product } from "../redux/slices/cartSlice"
 
 
 function MainPage() {
