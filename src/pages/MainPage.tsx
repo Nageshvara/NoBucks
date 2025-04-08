@@ -3,18 +3,21 @@ import axios from "axios"
 import {motion} from 'framer-motion'
 import ProductCard from "../components/ProductCard"
 import { Product } from "../redux/slices/cartSlice"
-
+import { useAppDispatch } from "../redux/hooks"
+import { initializeCartFromLocalStorage } from "../redux/slices/cartSlice"
 
 function MainPage() {
 
   const [products,setProducts] = useState<Product[]>([])
   const[isLoading,SetIsLoading] = useState(true)
+  const dispatch = useAppDispatch();
 
   useEffect(()=>{
     const fetchProducts = async ()=> {
     try {
       const res = await axios.get("https://nobucks.onrender.com/api/products");
       setProducts(res.data)
+      dispatch(initializeCartFromLocalStorage());
     } catch (error) {
       console.error(error)
     }
@@ -23,7 +26,7 @@ function MainPage() {
     }
   };
 
-  fetchProducts(); },[])
+  fetchProducts(); },[dispatch])
 
   const container = {
     hidden:{opacity:0},
