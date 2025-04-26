@@ -14,6 +14,11 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import NotFound from './pages/NotFound';
 import { AnimatePresence } from 'framer-motion';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import OrderSuccess from './pages/OrderSuccess';
+import MyOrders from './pages/MyOrders';
+import Wishlist from './pages/Wishlist';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +40,26 @@ const router = createBrowserRouter([
   {
     path:'*',
     element:<NotFound/>
+  },
+  {
+    path:'/login',
+    element:<Login/>
+  },
+  {
+    path:'/register',
+    element:<Register/>
+  },
+  {
+    path:'/myorders',
+    element:<MyOrders/>
+  },
+  {
+    path:'/wishlist',
+    element:<Wishlist/>
+  },
+  {
+    path:'/order-success',
+    element:<OrderSuccess/>
   }
 ])
 

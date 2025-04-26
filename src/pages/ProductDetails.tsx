@@ -1,16 +1,32 @@
-import { useState } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import { useState,useEffect } from 'react';
+import {  useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { addToCart } from '../redux/slices/cartSlice';
+import { addToCart,initializeCartFromLocalStorage, Product } from '../redux/slices/cartSlice';
 import QuantitySelector from '../components/QuantitySelector';
 import { Button } from '../components/ui/button';
 import { ShoppingCart, ArrowLeft, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { currentProduct, loading, error } = useAppSelector(state =>state.products);
+  const {id} = useParams();
+  const [currentProduct,setCurrentProduct]=useState<Product>()
+  const { loading, error } = useAppSelector(state =>state.products);
+  useEffect(()=>{
+    const fetchProducts = async ()=> {
+    try {
+      const response = await axios.get(`https://nobucks.onrender.com/api/products/${id}`);
+      setCurrentProduct(response.data)
+      console.log(response)
+      dispatch(initializeCartFromLocalStorage());
+    } catch (error) {
+      console.error(error)
+    }
+  };
+
+  fetchProducts(); },[dispatch,id])
   
   const [quantity, setQuantity] = useState(1);
   const [isImageLoaded, setIsImageLoaded] = useState(false);

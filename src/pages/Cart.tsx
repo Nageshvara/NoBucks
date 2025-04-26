@@ -1,15 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
 import { updateQuantity, removeFromCart, clearCart } from '../redux/slices/cartSlice';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Trash2, Plus, Minus } from 'lucide-react';
+import { ShoppingCart, Trash2, Plus, Minus, PlusCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/seperator';
 
 const Cart = () => {
   const { items, totalItems, totalPrice } = useAppSelector(state => state.cart);
   const dispatch = useAppDispatch();
-  
+  const navigate = useNavigate();
   const handleUpdateQuantity = (productId: string, newQuantity: number) => {
     dispatch(updateQuantity({ productId, quantity: newQuantity }));
   };
@@ -116,6 +116,14 @@ const Cart = () => {
               ))}
               
               <div className="flex justify-end">
+                <Button
+                  variant="outline"
+                  onClick={()=>navigate('/')}
+                  className="flex items-center"
+                >
+                  <PlusCircle className="h-4 w-4 mr-2" />
+                  Add more items
+                </Button>
                 <Button
                   variant="outline"
                   onClick={handleClearCart}

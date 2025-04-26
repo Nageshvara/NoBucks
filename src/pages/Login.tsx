@@ -1,12 +1,16 @@
+
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { loginStart, loginSuccess, loginFailure } from '../redux/slices/authSlice';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { ArrowLeft, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'sonner';
 
 interface FormErrors {
   username?: string;
@@ -24,8 +28,6 @@ const Login = () => {
     password: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
-  
-  // Get the return URL from location state or default to checkout
   const from = location.state?.from || '/checkout';
   
   const validateForm = () => {
@@ -48,13 +50,46 @@ const Login = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors(prev => ({ ...prev, [name]: undefined }));
     }
   };
   
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+
+    dispatch(loginStart());
+    
+    try {
+
+        const response = await axios.post('https://nobucks.onrender.com/api/login', {
+          username: formData.username,
+          password: formData.password
+        });
+
+        dispatch(loginSuccess({
+          userId: response.data.userId,
+          username: response.data.username
+        }));
+        
+        toast.success('Login successful!');
+        navigate(from);
+        
+        dispatch(loginSuccess({
+          userId: formData.username,
+          username: formData.username
+        }));
+        
+        toast.success('Login successful');
+        navigate(from);
+
+    } catch (error) {
+      console.error('Login error:', error);
+      dispatch(loginFailure('Login failed. Please check your credentials.'));
+    }
+  };
   
   return (
     <div className="min-h-screen pt-20 pb-16 px-4 md:px-6">
@@ -79,7 +114,7 @@ const Login = () => {
           </div>
           
           <div className="border rounded-lg p-6">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="username">Username</Label>
